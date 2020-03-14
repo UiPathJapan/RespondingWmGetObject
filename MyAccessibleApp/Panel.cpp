@@ -118,7 +118,9 @@ LRESULT CALLBACK Panel::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             {
                 if (lParam == OBJID_CLIENT)
                 {
-                    return LresultFromObject(IID_IAccessible, wParam, static_cast<IAccessible*>(AccessibleObjectStore::Get(pThis)));
+                    auto pAccessible = AccessibleObjectStore::Get(pThis);
+                    pAccessible->AddRef();
+                    return LresultFromObject(IID_IAccessible, wParam, static_cast<IAccessible*>(pAccessible));
                 }
             }
             break;

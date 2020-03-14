@@ -4,6 +4,7 @@
 #include "Label.h"
 #include "About.h"
 #include "AccessibleObject.h"
+#include "AccessibleObjectStore.h"
 #include "ResourceString.h"
 #include "Resource.h"
 
@@ -152,6 +153,8 @@ LRESULT CALLBACK MyAccessibleApp::WndProc(HWND hWnd, UINT message, WPARAM wParam
             break;
         }
         case WM_DESTROY:
+            AccessibleObjectStore::Release(pThis->m_pPanel);
+            pThis->m_pPanel->Release();
             PostQuitMessage(0);
             return 0;
         default:
