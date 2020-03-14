@@ -109,9 +109,7 @@ HRESULT STDMETHODCALLTYPE AccessibleObject::get_accParent(IDispatch **ppdispPare
         *ppdispParent = nullptr;
         return S_FALSE;
     }
-    auto pAccessible = AccessibleObjectStore::Get(pElement);
-    pAccessible->AddRef();
-    *ppdispParent = pAccessible;
+    *ppdispParent = AccessibleObjectStore::Get(pElement);
     return S_OK;
 }
 
@@ -138,9 +136,7 @@ HRESULT STDMETHODCALLTYPE AccessibleObject::get_accChild(VARIANT varChild, IDisp
     {
         return E_POINTER;
     }
-    auto pAccessible = AccessibleObjectStore::Get(pElement);
-    pAccessible->AddRef();
-    *ppdispChild = pAccessible;
+    *ppdispChild = AccessibleObjectStore::Get(pElement);
     return S_OK;
 }
 

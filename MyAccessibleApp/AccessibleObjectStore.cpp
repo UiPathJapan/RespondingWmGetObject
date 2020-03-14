@@ -35,18 +35,20 @@ InternalAccessibleObjectStore::InternalAccessibleObjectStore()
 
 AccessibleObject* InternalAccessibleObjectStore::Get(Element* pElement)
 {
+    AccessibleObject* pAccessible;
     SimpleLock lock(m_LockedBy);
     AccessibleObjectMap::const_iterator iter = find(pElement);
     if (iter != end())
     {
-        return iter->second;
+        pAccessible = iter->second;
     }
     else
     {
-        AccessibleObject* pAccessible = new AccessibleObject(pElement);
+        pAccessible = new AccessibleObject(pElement);
         insert(AccessibleObjectEntry(pElement, pAccessible));
-        return pAccessible;
     }
+    pAccessible->AddRef();
+    return pAccessible;
 }
 
 
