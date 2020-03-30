@@ -40,12 +40,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
+    App.Destroy();
+
     return (int) msg.wParam;
 }
-
-
-typedef bool (WINAPI *PFNDBGHLPINITIALIZE)(int);
-typedef void (WINAPI *PFNDBGHLPUNINITIALIZE)(void);
 
 
 MyAccessibleApp::MyAccessibleApp(HINSTANCE hInstance, int nCmdShow)
@@ -123,6 +121,15 @@ HWND MyAccessibleApp::Create()
 }
 
 
+void MyAccessibleApp::Destroy()
+{
+    m_pPanel->Release();
+    m_pPanel = nullptr;
+
+    UnregisterClassW(ResourceString(m_hInstance, IDC_MYACCESSIBLEAPP), m_hInstance);
+}
+
+
 LRESULT CALLBACK MyAccessibleApp::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     MyAccessibleApp* pThis = reinterpret_cast<MyAccessibleApp*>(GetWindowLongPtrW(hWnd, GWLP_USERDATA));
@@ -153,8 +160,7 @@ LRESULT CALLBACK MyAccessibleApp::WndProc(HWND hWnd, UINT message, WPARAM wParam
             break;
         }
         case WM_DESTROY:
-            AccessibleObjectStore::Release(pThis->m_pPanel);
-            pThis->m_pPanel->Release();
+            pThis->m_hwnd = nullptr;
             PostQuitMessage(0);
             return 0;
         default:

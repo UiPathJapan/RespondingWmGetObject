@@ -31,6 +31,7 @@ namespace UiPathTeam
 
         static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
+        void OnDestroy();
         void OnMouseMove(LONG, LONG);
         void OnButtonDown(LONG, LONG, DWORD);
         void OnButtonUp(LONG, LONG, DWORD);

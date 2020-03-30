@@ -30,20 +30,11 @@ Panel::Panel(PCWSTR pszName)
 
 Panel::~Panel()
 {
-    std::vector<Element*>::iterator iter = m_pElements.begin();
-    while (iter != m_pElements.end())
-    {
-        auto pElement = *iter;
-        iter = m_pElements.erase(iter);
-        AccessibleObjectStore::Release(pElement);
-        pElement->Release();
-    }
-    DestroyWindow(m_hwnd);
-    m_hwnd = nullptr;
     if (!--s_WindowClassCount)
     {
         UnregisterClassW(s_szClassName, s_hInstance);
     }
+
     free(m_pszValue);
 }
 
@@ -101,8 +92,7 @@ LRESULT CALLBACK Panel::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         switch (uMsg)
         {
         case WM_DESTROY:
-            AccessibleObjectStore::Release(pThis);
-            pThis->Release();
+            pThis->OnDestroy();
             return 0;
         case WM_PAINT:
         {
@@ -113,7 +103,6 @@ LRESULT CALLBACK Panel::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             return 0;
         }
         case WM_GETOBJECT:
-        {
             if (pThis->m_bAccessible)
             {
                 if (lParam == OBJID_CLIENT)
@@ -122,7 +111,6 @@ LRESULT CALLBACK Panel::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 }
             }
             break;
-        }
         case WM_GETTEXT:
             _snwprintf_s(reinterpret_cast<PWCHAR>(lParam), wParam, _TRUNCATE, L"%s", pThis->GetValue());
             return static_cast<LRESULT>(wcslen(reinterpret_cast<PWCHAR>(lParam)));
@@ -199,6 +187,23 @@ void Panel::Layout()
     m_cy = curPos.y - m_paddingHeight + m_marginBottom;
 
     SetSize(m_cx, m_cy);
+}
+
+
+void Panel::OnDestroy()
+{
+    m_hwnd = nullptr;
+
+    std::vector<Element*>::iterator iter = m_pElements.begin();
+    while (iter != m_pElements.end())
+    {
+        auto pElement = *iter;
+        iter = m_pElements.erase(iter);
+        AccessibleObjectStore::Release(pElement);
+        pElement->Release();
+    }
+
+    AccessibleObjectStore::Release(this);
 }
 
 

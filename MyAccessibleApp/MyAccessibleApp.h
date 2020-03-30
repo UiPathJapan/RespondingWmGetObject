@@ -18,6 +18,7 @@ namespace UiPathTeam
         MyAccessibleApp(const MyAccessibleApp&) = delete;
         void operator =(const MyAccessibleApp&) = delete;
         HWND Create();
+        void Destroy();
 
     private:
 
