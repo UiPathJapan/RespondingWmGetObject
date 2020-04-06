@@ -10,7 +10,9 @@ namespace UiPathTeam
     {
     public:
 
-        ResourceString(HINSTANCE, UINT);
+        static HINSTANCE InstanceHandle;
+
+        ResourceString(UINT, HINSTANCE = nullptr);
         ResourceString(const ResourceString&) = delete;
         ~ResourceString();
         void operator =(const ResourceString&) = delete;

@@ -17,6 +17,8 @@
 #define IDS_AA_ENABLED                  108
 #define IDC_MYACCESSIBLEAPP             109
 #define IDS_AA_DISABLED                 110
+#define IDS_LEFT_CLICK                  111
+#define IDS_RIGHT_CLICK                 112
 #define IDR_MAINFRAME                   128
 #define IDM_ENABLE_AA                   32771
 #define IDM_DISABLE_AA                  32772

@@ -1,5 +1,7 @@
 #include "framework.h"
 #include "Label.h"
+#include "ResourceString.h"
+#include "resource.h"
 
 
 using namespace UiPathTeam;
@@ -91,7 +93,7 @@ void Label::OnMouseLeave()
 void Label::OnMouseClicked(DWORD dwBtnClicked)
 {
     MessageBeep(MB_OK);
-    MessageBoxW(m_hwnd, m_pszText, dwBtnClicked == MK_LBUTTON ? L"左クリック" : dwBtnClicked == MK_RBUTTON ? L"右クリック" : L"?", MB_OK);
+    MessageBoxW(m_hwnd, m_pszText, dwBtnClicked == MK_LBUTTON ? ResourceString(IDS_LEFT_CLICK) : dwBtnClicked == MK_RBUTTON ? ResourceString(IDS_RIGHT_CLICK) : L"?", MB_OK);
 }
 
 

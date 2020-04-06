@@ -23,6 +23,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    ResourceString::InstanceHandle = hInstance;
+
     MyAccessibleApp App(hInstance, nCmdShow);
 
     App.Create();
@@ -61,8 +63,8 @@ MyAccessibleApp::~MyAccessibleApp()
 
 HWND MyAccessibleApp::Create()
 {
-    ResourceString szWindowClass(m_hInstance, IDC_MYACCESSIBLEAPP);
-    ResourceString szTitle(m_hInstance, IDS_APP_TITLE);
+    ResourceString szWindowClass(IDC_MYACCESSIBLEAPP);
+    ResourceString szTitle(IDS_APP_TITLE);
 
     WNDCLASSEXW wcex;
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -85,27 +87,27 @@ HWND MyAccessibleApp::Create()
     m_pPanel->SetAccessible(true);
     auto hwndPanel = m_pPanel->Create(m_hwnd, m_hInstance);
 
-    auto pLabel1 = new Label(L"ラベル1", ResourceString(m_hInstance, IDS_LABEL1));
+    auto pLabel1 = new Label(L"ラベル1", ResourceString(IDS_LABEL1));
     pLabel1->Create(hwndPanel, m_hInstance);
     pLabel1->SetSize(200, 24);
     m_pPanel->AddChild(pLabel1);
 
-    auto pLabel2 = new Label(L"ラベル2", ResourceString(m_hInstance, IDS_LABEL2));
+    auto pLabel2 = new Label(L"ラベル2", ResourceString(IDS_LABEL2));
     pLabel2->Create(hwndPanel, m_hInstance);
     pLabel2->SetSize(200, 24);
     m_pPanel->AddChild(pLabel2);
 
-    auto pLabel3 = new Label(L"ラベル3", ResourceString(m_hInstance, IDS_LABEL3));
+    auto pLabel3 = new Label(L"ラベル3", ResourceString(IDS_LABEL3));
     pLabel3->Create(hwndPanel, m_hInstance);
     pLabel3->SetSize(200, 24);
     m_pPanel->AddChild(pLabel3);
 
-    auto pLabel4 = new Label(L"ラベル4", ResourceString(m_hInstance, IDS_LABEL4));
+    auto pLabel4 = new Label(L"ラベル4", ResourceString(IDS_LABEL4));
     pLabel4->Create(hwndPanel, m_hInstance);
     pLabel4->SetSize(200, 24);
     m_pPanel->AddChild(pLabel4);
 
-    auto pLabel5 = new Label(L"ラベル5", ResourceString(m_hInstance, IDS_LABEL5));
+    auto pLabel5 = new Label(L"ラベル5", ResourceString(IDS_LABEL5));
     pLabel5->Create(hwndPanel, m_hInstance);
     pLabel5->SetSize(200, 24);
     m_pPanel->AddChild(pLabel5);
@@ -126,7 +128,7 @@ void MyAccessibleApp::Destroy()
     m_pPanel->Release();
     m_pPanel = nullptr;
 
-    UnregisterClassW(ResourceString(m_hInstance, IDC_MYACCESSIBLEAPP), m_hInstance);
+    UnregisterClassW(ResourceString(IDC_MYACCESSIBLEAPP), m_hInstance);
 }
 
 
@@ -203,13 +205,13 @@ void MyAccessibleApp::UpdateMenu(HWND hWnd)
     HMENU hMenu = GetMenu(hWnd);
     if (m_pPanel->IsAccessible())
     {
-        DefWindowProcW(hWnd, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(&ResourceString(m_hInstance, IDS_AA_ENABLED)));
+        DefWindowProcW(hWnd, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(&ResourceString(IDS_AA_ENABLED)));
         EnableMenuItem(hMenu, IDM_ENABLE_AA, MF_DISABLED);
         EnableMenuItem(hMenu, IDM_DISABLE_AA, MF_ENABLED);
     }
     else
     {
-        DefWindowProcW(hWnd, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(&ResourceString(m_hInstance, IDS_AA_DISABLED)));
+        DefWindowProcW(hWnd, WM_SETTEXT, 0, reinterpret_cast<LPARAM>(&ResourceString(IDS_AA_DISABLED)));
         EnableMenuItem(hMenu, IDM_ENABLE_AA, MF_ENABLED);
         EnableMenuItem(hMenu, IDM_DISABLE_AA, MF_DISABLED);
     }
